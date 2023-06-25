@@ -1,9 +1,8 @@
-(** * Preface *)
+/- * Preface -/
 
-(* ################################################################# *)
-(** * Welcome *)
-
-(** This is the entry point to a series of electronic textbooks on
+/- ################################################################# -/
+/- * Welcome -/
+/- This is the entry point to a series of electronic textbooks on
     various aspects of _Software Foundations_, the mathematical
     underpinnings of reliable software.  Topics in the series include
     basic concepts of logic, computer-assisted theorem proving, the
@@ -32,12 +31,12 @@
 
     This book, _Logical Foundations_, lays groundwork for the others,
     introducing the reader to the basic ideas of functional
-    programming, constructive logic, and the Coq proof assistant. *)
+    programming, constructive logic, and the Coq proof assistant. -/
 
-(* ################################################################# *)
-(** * Overview *)
+/- ################################################################# -/
+/- * Overview -/
 
-(** Building reliable software is really hard -- really hard.  The
+/- Building reliable software is really hard -- really hard.  The
     scale and complexity of modern systems, the number of people
     involved, and the range of demands placed on them make it
     challenging to build software that is even more-or-less correct,
@@ -67,12 +66,12 @@
 
     (3) _functional programming_, both as a method of programming that
         simplifies reasoning about programs and as a bridge between
-        programming and logic. *)
+        programming and logic. -/
 
-(* ================================================================= *)
-(** ** Logic *)
+/- ================================================================= -/
+/- ** Logic -/
 
-(** Logic is the field of study whose subject matter is _proofs_ --
+/- Logic is the field of study whose subject matter is _proofs_ --
     unassailable arguments for the truth of particular propositions.
     Volumes have been written about the central role of logic in
     computer science.  Manna and Waldinger called it "the calculus of
@@ -89,12 +88,12 @@
     ubiquitous in all of computer science.  You have surely seen them
     before, perhaps in a course on discrete math or analysis of
     algorithms, but in this course we will examine them more deeply
-    than you have probably done so far. *)
+    than you have probably done so far. -/
 
-(* ================================================================= *)
-(** ** Proof Assistants *)
+/- ================================================================= -/
+/- ** Proof Assistants -/
 
-(** The flow of ideas between logic and computer science has not been
+/- The flow of ideas between logic and computer science has not been
     unidirectional: CS has also made important contributions to logic.
     One of these has been the development of software tools for
     helping construct proofs of logical propositions.  These tools
@@ -176,12 +175,12 @@
    sounds like the initials of the Calculus of Constructions (CoC) on
    which it is based."  The rooster is also the national symbol of
    France, and C-o-q are the first three letters of the name of
-   Thierry Coquand, one of Coq's early developers. *)
+   Thierry Coquand, one of Coq's early developers. -/
 
-(* ================================================================= *)
-(** ** Functional Programming *)
+/- ================================================================= -/
+/- ** Functional Programming -/
 
-(** The term _functional programming_ refers both to a collection of
+/- The term _functional programming_ refers both to a collection of
     programming idioms that can be used in almost any programming
     language and to a family of programming languages designed to
     emphasize these idioms, including Haskell, OCaml, Standard ML,
@@ -237,24 +236,24 @@
     programming language plus a set of tools for stating and proving
     logical assertions.  Moreover, when we come to look more closely,
     we find that these two sides of Coq are actually aspects of the
-    very same underlying machinery -- i.e., _proofs are programs_.  *)
+    very same underlying machinery -- i.e., _proofs are programs_.  -/
 
-(* ================================================================= *)
-(** ** Further Reading *)
+/- ================================================================= -/
+/- ** Further Reading -/
 
-(** This text is intended to be self contained, but readers looking
+/- This text is intended to be self contained, but readers looking
     for a deeper treatment of particular topics will find some
     suggestions for further reading in the [Postscript] chapter.
     Bibliographic information for all cited works can be found in the
-    file [Bib].*)
+    file [Bib].-/
 
-(* ################################################################# *)
-(** * Practicalities *)
+/- ################################################################# -/
+/- * Practicalities -/
 
-(* ================================================================= *)
-(** ** System Requirements *)
+/- ================================================================= -/
+/- ** System Requirements -/
 
-(** Coq runs on Windows, Linux, and macOS.  You will need:
+/- Coq runs on Windows, Linux, and macOS.  You will need:
 
     - A current installation of Coq, available from the Coq home page.
       These files have been tested with Coq 8.16.
@@ -281,12 +280,12 @@
 
           coqide -async-proofs off \
                  -async-proofs-command-error-resilience off Foo.v &
-*)
+-/
 
-(* ================================================================= *)
-(** ** Exercises *)
+/- ================================================================= -/
+/- ** Exercises -/
 
-(** Each chapter includes numerous exercises.  Each is marked with a
+/- Each chapter includes numerous exercises.  Each is marked with a
     "star rating," which can be interpreted as follows:
 
        - One star: easy exercises that underscore points in the text
@@ -324,30 +323,30 @@
     much less useful for courses, which typically have graded homework
     assignments.  We especially request that readers not post
     solutions to the exercises anyplace where they can be found by
-    search engines. *)
+    search engines. -/
 
-(* ================================================================= *)
-(** ** Downloading the Coq Files *)
+/- ================================================================= -/
+/- ** Downloading the Coq Files -/
 
-(** A tar file containing the full sources for the "release version"
+/- A tar file containing the full sources for the "release version"
     of this book (as a collection of Coq scripts and HTML files) is
     available at {https://softwarefoundations.cis.upenn.edu}.
 
     If you are using the book as part of a class, your professor may
     give you access to a locally modified version of the files; you
     should use that one instead of the public release version, so that
-    you get any local updates during the semester. *)
+    you get any local updates during the semester. -/
 
-(* ================================================================= *)
-(** ** Chapter Dependencies *)
+/- ================================================================= -/
+/- ** Chapter Dependencies -/
 
-(** A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file [deps.html]. *)
+/- A diagram of the dependencies between chapters and some suggested
+    paths through the material can be found in the file [deps.html]. -/
 
-(* ================================================================= *)
-(** ** Recommended Citation Format *)
+/- ================================================================= -/
+/- ** Recommended Citation Format -/
 
-(** If you want to refer to this volume in your own writing, please
+/- If you want to refer to this volume in your own writing, please
     do so as follows:
 
     @book            {Pierce:SF1,
@@ -367,35 +366,35 @@
     publisher    =   "Electronic textbook",
     note         =   {Version 6.3, \URL{http://softwarefoundations.cis.upenn.edu}}
     }
-*)
+-/
 
-(* ################################################################# *)
-(** * Resources *)
+/- ################################################################# -/
+/- * Resources -/
 
-(* ================================================================= *)
-(** ** Sample Exams *)
+/- ================================================================= -/
+/- ** Sample Exams -/
 
-(** A large compendium of exams from many offerings of
+/- A large compendium of exams from many offerings of
     CIS5000 ("Software Foundations") at the University of Pennsylvania
     can be found at
     {https://www.seas.upenn.edu/~cis5000/current/exams/index.html}.
     There has been some drift of notations over the years, but most of
-    the problems are still relevant to the current text. *)
+    the problems are still relevant to the current text. -/
 
-(* ================================================================= *)
-(** ** Lecture Videos *)
+/- ================================================================= -/
+/- ** Lecture Videos -/
 
-(** Lectures for two intensive summer courses based on _Logical
+/- Lectures for two intensive summer courses based on _Logical
     Foundations_ (part of the DeepSpec summer school series) can be
     found at {https://deepspec.org/event/dsss17} and
     {https://deepspec.org/event/dsss18/}.  The video quality in the
     2017 lectures is poor at the beginning but gets better in the
-    later lectures. *)
+    later lectures. -/
 
-(* ################################################################# *)
-(** * Note for Instructors and Contributors *)
+/- ################################################################# -/
+/- * Note for Instructors and Contributors -/
 
-(** If you plan to use these materials in your own teaching, or if you
+/- If you plan to use these materials in your own teaching, or if you
     are using software foundations for self study and are finding
     things you'd like to help add or improve, your contributions are
     welcome!  You are warmly invited to join the private SF git repo.
@@ -431,22 +430,22 @@
 
     We'll set you up with access to the git repository and developers'
     mailing lists.  In the repository you'll find the files
-    [INSTRUCTORS] and [CONTRIBUTING] with further instructions. *)
+    [INSTRUCTORS] and [CONTRIBUTING] with further instructions. -/
 
-(* ################################################################# *)
-(** * Translations *)
+/- ################################################################# -/
+/- * Translations -/
 
-(** Thanks to the efforts of a team of volunteer translators,
+/- Thanks to the efforts of a team of volunteer translators,
     _Software Foundations_ can be enjoyed in Japanese at
     {http://proofcafe.org/sf}.  A Chinese translation is also underway;
-    you can preview it at {https://coq-zh.github.io/SF-zh/}. *)
+    you can preview it at {https://coq-zh.github.io/SF-zh/}. -/
 
-(* ################################################################# *)
-(** * Thanks *)
+/- ################################################################# -/
+/- * Thanks -/
 
-(** Development of the _Software Foundations_ series has been
+/- Development of the _Software Foundations_ series has been
     supported, in part, by the National Science Foundation under the
     NSF Expeditions grant 1521523, _The Science of Deep
-    Specification_. *)
+    Specification_. -/
 
-(* 2023-03-25 11:11 *)
+/- 2023-03-25 11:11 -/
