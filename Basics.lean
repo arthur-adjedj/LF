@@ -36,9 +36,9 @@
     all of these features.
 
     The first half of this chapter introduces the most essential
-    elements of Lean's Native functional programming language, called
-    _Gallina_.  The second half introduces some basic _tactics_ that
-    can be used to prove properties of Gallina programs. -/
+    elements of Lean's functional programming language.  
+    The second half introduces some basic _tactics_ that
+    can be used to prove properties of programs. -/
 
 /- ################################################################# -/
 /- * Data and Functions -/
@@ -46,12 +46,10 @@
 /- ================================================================= -/
 /- ** Enumerated Types -/
 
-/- One notable aspect of Lean is that its set of built-in
-    features is _extremely_ small.  For example, instead of providing
-    the usual palette of atomic data types (Booleans, integers,
-    strings, etc.), Lean offers a powerful mechanism for defining new
-    data types from scratch, with all these familiar types as
-    instances.
+/-  While Lean provides a lot of types and features as part of its core.  
+    (including the usual palette of atomic data types like Booleans, 
+    integers, strings, etc.), Lean also offers a powerful mechanism 
+    for defining new data types from scratch.
 
     Naturally, the Lean distribution comes with an extensive standard
     library providing defs of Booleans, numbers, and many
@@ -64,8 +62,8 @@
 /- ================================================================= -/
 /- ** Days of the Week -/
 
-/- To see how this def mechanism works, let's start with
-    a very simple example.  The following declaration tells Lean that
+/- To see how this definition mechanism works, let's start with
+    a very simple example. The following declaration tells Lean that
     we are defining a set of data values -- a _type_. -/
 
 inductive Day : Type :=
@@ -80,7 +78,8 @@ deriving Repr
 open Day
 /- The new type is called [Day], and its members are [monday],
     [tuesday], etc.
-
+   
+    Pay no mind to the [deriving] and [open] commands for now.
     Having defined [Day], we can write functions that operate on
     Days. -/
 
@@ -115,8 +114,8 @@ def next_weekday (d:Day) : Day :=
 
 /- (We show Lean's responses in comments, but, if you have a
     computer handy, this would be an excellent moment to fire up the
-    Lean interpreter under your favorite IDE -- either LeanIde or Proof
-    General -- and try it for yourself.  Load this file, [Basics.v],
+    Lean interpreter under your favorite IDE -- either VSCode or Emacs
+    -- and try it for yourself.  Load this file, [Basics.lean],
     from the book's Lean sources, find the above example, submit it to
     Lean, and observe the result.) -/
 
@@ -137,74 +136,28 @@ theorem test_next_weekday:
     observing that both sides of the equality evaluate to the same
     thing."
 
-    Third, we can ask Lean to _extract_, from our [def], a
-    program in another, more conventional, programming
-    language (OCaml, Scheme, or Haskell) with a high-performance
-    compiler.  This facility is very interesting, since it gives us a
-    path from proved-correct algorithms written in Gallina to
+    Third, we can ask Lean to _compile_ our [def]initions into 
+    executable code. This facility is very interesting, since 
+    it gives us a
+    path from proved-correct algorithms written in Lean to
     efficient machine code.  (Of course, we are trusting the
-    correctness of the OCaml/Haskell/Scheme compiler, and of Lean's
-    extraction facility itself, but this is still a big step forward
+    correctness of the Lean compiler, but this is still a big step forward
     from the way most software is developed today.) Indeed, this is
-    one of the main uses for which Lean was developed.  We'll come back
+    one of the main uses for which Lean 4 was developed. We'll come back
     to this topic in later chapters. -/
 
 /- ================================================================= -/
+/- ** TODO AUTO GRADE ??? -/
 /- ** Homework Submission Guidelines -/
-
-/- If you are using _Software Foundations_ in a course, your
-    instructor may use automatic scripts to help grade your homework
-    assignments.  In order for these scripts to work correctly (and
-    give you that you get full credit for your work!), please be
-    careful to follow these rules:
-      - Do not change the names of exercises. Otherwise the grading
-        scripts will be unable to find your solution.
-      - Do not delete exercises.  If you skip an exercise (e.g.,
-        because it is marked "optional," or because you can't solve it),
-        it is OK to leave a partial proof in your [.v] file; in
-        this case, please make sure it ends with [sorry] (not, for
-        example [Abort]).
-      - It is fine to use additional defs (of helper functions,
-        useful lemmas, etc.) in your solutions.  You can put these
-        before the theorem you are asked to prove.
-      - If you introduce a helper lemma that you end up being unable
-        to prove, hence end it with [sorry], then make sure to also
-        end the main theorem in which you use it with [sorry], not
-        [Qed].  That will help you get partial credit, in case you
-        use that main theorem to solve a later exercise.
-
-    You will also notice that each chapter (like [Basics.v]) is
-    accompanied by a _test script_ ([BasicsTest.v]) that automatically
-    calculates points for the finished homework problems in the
-    chapter.  These scripts are mostly for the auto-grading
-    tools, but you may also want to use them to double-check
-    that your file is well formatted before handing it in.  In a
-    terminal window, either type "[make BasicsTest.vo]" or do the
-    following:
-
-       coqc -Q . LF Basics.v
-       coqc -Q . LF BasicsTest.v
-
-    See the end of this chapter for more information about how to interpret
-    the output of test scripts.
-
-    There is no need to hand in [BasicsTest.v] itself (or [Preface.v]).
-
-    If your class is using the Canvas system to hand in assignments...
-      - If you submit multiple versions of the assignment, you may
-        notice that they are given different names.  This is fine: The
-        most recent submission is the one that will be graded.
-      - To hand in multiple files at the same time (if more than one
-        chapter is assigned in the same week), you need to make a
-        single submission with all the files at once using the button
-        "Add another file" just above the comment box. -/
 
 /- ================================================================= -/
 /- ** Booleans -/
 
 /- Following the pattern of the Days of the week above, we can
     define the standard type [Bool] of Booleans, with members [true]
-    and [false]. -/
+    and [false]. Since Bool is already defined in the core language, 
+    this inductive definition is commented out, as it would otherwise 
+    give an error.-/
 
 /-inductive Bool : Type :=
   | true
@@ -228,12 +181,9 @@ def orb (b1:Bool) (b2:Bool) : Bool :=
   | true => true
   | false => b2
 
-/- (Although we are rolling our own Booleans here for the sake
+/- (Although we are rolling our own Boolean functions here for the sake
     of building up everything from scratch, Lean does, of course,
-    provide a default implementation of the Booleans, together with a
-    multitude of useful functions and lemmas.  Whenever possible,
-    we'll name our own defs and theorems so that they exactly
-    coincide with the ones in the standard library.) -/
+    provide a multitude of useful functions and lemmas. -/
 
 /- The last two of these illustrate Lean's syntax for
     multi-argument function defs.  The corresponding
@@ -241,23 +191,23 @@ def orb (b1:Bool) (b2:Bool) : Bool :=
     "unit tests," which constitute a complete specification -- a truth
     table -- for the [orb] function: -/
 
-theorem test_orb1:  (orb true  false) = true  := rfl
-theorem test_orb2:  (orb false false) = false := rfl
-theorem test_orb3:  (orb false true)  = true  := rfl
-theorem test_orb4:  (orb true  true)  = true  := rfl
+theorem test_orb1: (orb true  false) = true  := rfl
+theorem test_orb2: (orb false false) = false := rfl
+theorem test_orb3: (orb false true)  = true  := rfl
+theorem test_orb4: (orb true  true)  = true  := rfl
 
 /- We can also introduce some familiar infix syntax for the
     Boolean operations we have just defined. The [notation] command
     defines a new symbolic notation for an existing def. -/
 
-notation x "&&" y => andb x y
+notation x "and" y => andb x y
 notation x "||" y => orb x y
 
 --Note : wrong associativity, it's parsed as `false || (false || (true = true))`
 -- `(true = true)` is then coerced to `decide (true = true)`
-theorem test_orb5:  false || false || true = true := rfl
+theorem test_orb5: false || false || true = true := rfl
 
-/- _A note on notation_: In [.v] files, we use square brackets
+/- _A note on notation_: In [.lean] files, we use square brackets
     to delimit fragments of Lean code within comments; this convention,
     also used by the [coqdoc] documentation tool, keeps them visually
     separate from the surrounding text.  In the HTML version of the
@@ -368,17 +318,17 @@ theorem test_andb34: (andb3 true true false) = false := sorry
     elements, called _constructors_.  Here is a more interesting type
     def, where one of the constructors takes an argument: -/
 
-inductive rgb : Type :=
+inductive Rgb : Type :=
   | red
   | green
   | blue
-open rgb
+open Rgb
 
-inductive color : Type :=
+inductive Color : Type :=
   | black
   | white
-  | primary (p : rgb)
-open color
+  | primary (p : Rgb)
+open Color
 /- Let's look at this in a little more detail.
 
     An [inductive] def does two things:
@@ -420,7 +370,7 @@ open color
 /- We can define functions on colors using pattern matching just as
     we did for [day] and [Bool]. -/
 
-def monochrome (c : color) : Bool :=
+def monochrome (c : Color) : Bool :=
   match c with
   | black => true
   | white => true
@@ -431,7 +381,7 @@ def monochrome (c : color) : Bool :=
     note that we can choose its name freely) or a constant of
     appropriate type (as below). -/
 
-def isred (c : color) : Bool :=
+def isred (c : Color) : Bool :=
   match c with
   | black => false
   | white => false
@@ -456,12 +406,12 @@ def isred (c : color) : Bool :=
     reuse names. -/
 
 namespace Playground
-  def myblue : rgb := blue
+  def myblue : Rgb := blue
 end Playground
 
 def myblue : Bool := true
 
-#check (Playground.myblue : rgb)
+#check (Playground.myblue : Rgb)
 #check (myblue : Bool)
 
 /- ================================================================= -/
