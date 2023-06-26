@@ -902,12 +902,14 @@ theorem plus_id_example : ∀ n m: Nat,
     by replacing the left side of the equality hypothesis `H` with the
     right side.
 
-    (The arrow symbol in the `rewrite` has nothing to do with
-    implication: it tells Lean to apply the rewrite from left to right.
-    In fact, you can omit the arrow, and Lean will default to rewriting
-    in this direction.  To rewrite from right to left, you can use
-    `rewrite <-`.  Try making this change in the above proof and see
-    what difference it makes.) -/
+    (note that `H` is enclosed in brackets. This is because `rewrite` is meant 
+    to be used to do multiple rewrites in a single tactic call. As such, all the 
+    hypothesises you want to use to rewrite your goal can be written as 
+    `rewrite [H1, H2, ..., Hn]`. Furthermore, when using `H : foo = bar`, 
+    `rewrite` will try to replace all instances of `foo` with `bar`. 
+    you can also ask the tactic to replace `bar` with `foo` instead, by writing 
+    `<-H` instead of `H`. You can try to do so in the previous example, and see 
+    what it does.) -/
 
 /- **** Exercise: 1 star, standard (plus_id_exercise)
 
@@ -958,7 +960,7 @@ theorem mult_n_0_m_0 : ∀ p q : Nat,
 /- **** Exercise: 1 star, standard (mult_n_1)
 
     Use those two lemmas about multiplication that we just checked to
-    prove the following theorem.  Hint: recall that `1` is `S O`. -/
+    prove the following theorem.  Hint: recall that `1` is `succ zero`. -/
 
 theorem mult_n_1 : ∀ p : Nat,
   p * 1 = p := by
@@ -980,7 +982,7 @@ theorem mult_n_1 : ∀ p : Nat,
 theorem plus_1_neq_0_firsttry : ∀ n : Nat,
   ((1+ n) =? 0) = false := by
   intro n
-  try rfl 
+  try rfl --Doesn't work !
   sorry
 
 /- The reason for this is that the defs of both `eqb`
@@ -994,11 +996,11 @@ theorem plus_1_neq_0_firsttry : ∀ n : Nat,
     of `(n + 1) =? 0` and check that it is, indeed, `false`.  And if
     `n = S n'` for some `n'`, then, although we don't know exactly
     what number `n + 1` represents, we can calculate that, at least,
-    it will begin with one `S`, and this is enough to calculate that,
+    it will begin with one `succ`, and this is enough to calculate that,
     again, `(n + 1) =? 0` will yield `false`.
 
     The tactic that tells Lean to consider, separately, the cases where
-    `n = O` and where `n = S n'` is called `cases`. -/
+    `n = O` and where `n = succ n'` is called `cases`. -/
 
 theorem plus_1_neq_0 : ∀ n : Nat,
   ((n + 1) =? 0) = false := by
@@ -1010,32 +1012,19 @@ theorem plus_1_neq_0 : ∀ n : Nat,
 /- The `cases` generates _two_ subgoals, which we must then
     prove, separately, in order to get Lean to accept the theorem.
 
-    The annotation "`as `| n'[]" is called an _intro pattern_.  It
-    tells Lean what variable names to introduce in each subgoal.  In
-    general, what goes between the square brackets is a _list of
-    lists_ of names, separated by `|`.  In this case, the first
-    component is empty, since the `O` constructor is nullary (it
-    doesn't have any arguments).  The second component gives a single
-    name, `n'`, since `S` is a unary constructor.
-
     In each subgoal, Lean remembers the assumption about `n` that is
-    relevant for this subgoal -- either `n = 0` or `n = S n'` for some
-    n'.  The `eqn:E` annotation tells `cases` to give the name `E`
-    to this equation.  Leaving off the `eqn:E` annotation causes Lean
-    to elide these assumptions in the subgoals.  This slightly
-    streamlines proofs where the assumptions are not explicitly used,
-    but it is better practice to keep them for the sake of
-    documentation, as they can help keep you oriented when working
-    with the subgoals.
+    relevant for this subgoal -- either `n = 0` or `n = succ n✝` for some
+    n'.  Writing `cases H : n` tells `cases` to give the name `H`
+    to this equation.
 
-    The `-` signs on the second and third lines are called _bullets_,
+    The `·` signs on the second and third lines are called _bullets_,
     and they mark the parts of the proof that correspond to the two
     generated subgoals.  The part of the proof script that comes after
     a bullet is the entire proof for the corresponding subgoal.  In
     this example, each of the subgoals is easily proved by a single
     use of `rfl`, which itself performs some simplification --
-    e.g., the second one simplifies `(S n' + 1) =? 0` to `false` by
-    first rewriting `(S n' + 1)` to `S (n' + 1)`, then unfolding
+    e.g., the second one simplifies `(succ n' + 1) =? 0` to `false` by
+    first rewriting `(succ n' + 1)` to `succ (n' + 1)`, then unfolding
     `eqb`, and then simplifying the `match`.
 
     Marking cases with bullets is optional: if bullets are not
@@ -1048,13 +1037,23 @@ theorem plus_1_neq_0 : ∀ n : Nat,
     become especially important in large developments, where fragile
     proofs lead to long debugging sessions.
 
-    There are no hard and fast rules for how proofs should be
-    formatted in Lean -- e.g., where lines should be broken and how
-    sections of the proof should be indented to indicate their nested
-    structure.  However, if the places where multiple subgoals are
-    generated are marked with explicit bullets at the beginning of
-    lines, then the proof will be readable almost no matter what
-    choices are made about other aspects of layout.
+    When using tactics, Lean might need to generate new variables on the fly, 
+    such as the `n✝` seen in the previous proof. By default, these variable are 
+    said to be innacessible, in the sense that the user cannot write and 
+    make use of them by calling them by their name. The goal of this is to encourage 
+    the user to name every introduced variable he might need. How one does so will 
+    depend on the tactic he's currently using. In the case of `cases`, you can write 
+    `cases n with 
+      | zero => rfl
+      | succ n' => rfl`
+    
+    instead of 
+    `cases n 
+      · rfl
+      · rfl
+    `
+
+    The syntax is very similar to the usual way you might do pattern-matching.
 
     This is also a good place to mention one other piece of somewhat
     obvious advice about line lengths.  Beginning Lean users sometimes
@@ -1084,8 +1083,9 @@ theorem negb_involutive : ∀ b : Bool,
     to its own devices.
 
     It is sometimes useful to invoke `cases` inside a subgoal,
-    generating yet more proof obligations. In this case, we use
-    different kinds of bullets to mark goals on different "levels."
+    generating yet more proof obligations. In this case, we can use bullets
+    again, indented one more time to keep the "tree-like" structure of the proof 
+    in place. 
     For example: -/
 
 theorem andb_commutative : ∀ b c, andb b c = andb c b := by
@@ -1103,9 +1103,7 @@ theorem andb_commutative : ∀ b c, andb b c = andb c b := by
     subgoals that were generated after the execution of the `cases c`
     line right above it. -/
 
-/- Besides `-` and `+`, we can use `*` (asterisk) or any repetition
-    of a bullet symbol (e.g. `--` or `***`) as a bullet.  We can also
-    enclose sub-proofs in curly braces: -/
+/- Besides `·`, we can also enclose sub-proofs in curly braces: -/
 
 theorem andb_commutative' : ∀ b c, andb b c = andb c b := by
   intro b c
@@ -1119,10 +1117,8 @@ theorem andb_commutative' : ∀ b c, andb b c = andb c b := by
 
 /- Since curly braces mark both the beginning and the end of a proof,
     they can be used for multiple subgoal levels, as this example
-    shows. Furthermore, curly braces allow us to reuse the same bullet
-    shapes at multiple levels in a proof. The choice of braces,
-    bullets, or a combiNation of the two is purely a matter of
-    taste. -/
+    shows. The choice of braces, bullets, or a combination of the 
+    two is purely a matter of taste. -/
 
 theorem andb3_exchange :
   ∀ b c d, andb (andb b c) d = andb (andb b d) c := by
@@ -1189,8 +1185,8 @@ infixl:40 "*" => mult
     symbol. For example, the parameters specified above for `+` and
     `*` say that the expression `1+2*3*4` is shorthand for
     `(1+((2*3)*4))`. Lean uses precedence levels from 0 to 1024, and
-    _left_, _right_, or _no_ associativity.  We will see more examples
-    of this later, e.g., in the `Lists`
+    _left_ (`infixl`), _right_ (`infixr`), or _no_ (`notation`) associativity.  
+    We will see more examples of this later, e.g., in the `Lists`
     chapter. -/
 
 /- ================================================================= -/
@@ -1306,10 +1302,10 @@ inductive Modifier : Type :=
   | Plus | Natural | Minus
 open Modifier
 
-/- A full `grade`, then, is just a `letter` and a `modifier`.
+/- A full `Grade`, then, is just a `Letter` and a `Modifier`.
 
-    We might write, informally, "A-" for the Lean value `Grade A Minus`,
-    and similarly "C" for the Lean value `Grade C Natural`. -/
+    We might write, informally, "A-" for the Lean value `grade A Minus`,
+    and similarly "C" for the Lean value `grade C Natural`. -/
 inductive Grade : Type :=
   | grade (l:Letter) (m:Modifier)
 open Grade
@@ -1349,7 +1345,7 @@ open Comparison
 
 /- As another shorthand, we can also match one of several
     possibilites by using `|` as short hand.  For example the pattern
-    `C , (A | B)` stands for two cases: `C, A` and `C, B` and will
+    `| C, A | C, B)` stands for two cases: `C, A` and `C, B` and will
     match either possibility.  -/
 def letter_comparison (l1 l2 : Letter) : Comparison :=
   match l1, l2 with
@@ -1449,7 +1445,7 @@ theorem test_grade_comparison4 :
 /- Now that we have a def of grades and how they compare to
     one another, let us implement the late penalty fuction. -/
 
-/- First, we define what it means to lower the `letter` component of
+/- First, we define what it means to lower the `Letter` component of
     a grade. Note that, since `F` is already the lowest grade
     possible, we just leave it untouched.  -/
 def lower_letter (l : Letter) : Letter :=
@@ -1504,7 +1500,7 @@ theorem lower_letter_lowers_fixed:
     We can now use the `lower_letter` def as a helper to define
     what it means to lower a grade by one step.  Implement the
     def below so that it sends a grade `g` to one step lower
-    unless it is already `Grade F Minus`, which should remain
+    unless it is already `grade F Minus`, which should remain
     unchanged.  Once you have implemented this def correctly,
     the subsequent example "unit tests" should hold trivially.
 
@@ -1553,9 +1549,6 @@ theorem lower_grade_thrice :
   /- FILL IN HERE -/ 
   sorry
 
-/- Note: Lean makes no distinction between an `theorem` and a
-    `theorem`. We state this one as a `theorem` only as a hint that we
-    will use it in proofs below. -/
 theorem lower_grade_F_Minus : lower_grade (grade F Minus) = (grade F Minus) := by
   /- FILL IN HERE -/ 
   sorry
@@ -1582,7 +1575,7 @@ theorem lower_grade_F_Minus : lower_grade (grade F Minus) = (grade F Minus) := b
     Hint: If you define your `grade_comparison` function as suggested,
     you will need to rewrite using `letter_comparison_eq` in two
     cases.  The remaining case is the only one in which you need to
-    cases a `letter`.  The case for `F` will probably benefit from
+    cases a `Letter`.  The case for `F` will probably benefit from
     `lower_grade_F_Minus`.  -/
 theorem lower_grade_lowers :
   ∀ (g : Grade),
@@ -1751,74 +1744,3 @@ theorem test_bin_incr6 :
   sorry
 
 /- [] -/
-
-/- ################################################################# -/
-/- * Testing Your Solutions -/
-
-/- Each SF chapter comes with a test file containing scripts that
-    check whether you have solved the required exercises. If you're
-    using SF as part of a course, your instructors will likely be
-    running these test files to autograde your solutions. You can also
-    use these test files, if you like, to make sure you haven't missed
-    anything.
-
-    Important: This step is _optional_: if you've completed all the
-    non-optional exercises and Lean accepts your answers, this already
-    shows that you are in good shape.
-
-    The test file for this chapter is `BasicsTest.v`. To run it, make
-    sure you have saved `Basics.v` to disk.  Then do this:
-
-       coqc -Q . LF Basics.v
-       coqc -Q . LF BasicsTest.v
-
-    (Make sure you do this in a directory that also contains a file named
-    `_LeanProject` containing the single line `-Q . LF`.)
-
-    If you accidentally deleted an exercise or changed its name, then
-    `make BasicsTest.vo` will fail with an error that tells you the
-    name of the missing exercise.  Otherwise, you will get a lot of
-    useful output:
-
-    - First will be all the output produced by `Basics.v` itself.  At
-      the end of that you will see `COQC BasicsTest.v`.
-
-    - Second, for each required exercise, there is a report that tells
-      you its point value (the number of stars or some fraction
-      thereof if there are multiple parts to the exercise), whether
-      its type is ok, and what assumptions it relies upon.
-
-      If the _type_ is not `ok`, it means you proved the wrong thing:
-      most likely, you accidentally modified the theorem statement
-      while you were proving it.  The autograder won't give you any
-      points for that, so make sure to correct the theorem.
-
-      The _assumptions_ are any unproved theorems which your solution
-      relies upon.  "Closed under the global context" is a fancy way
-      of saying "none": you have solved the exercise. (Hooray!)  On
-      the other hand, a list of axioms means you haven't fully solved
-      the exercise. (But see below regarding "Allowed Axioms.") If the
-      exercise name itself is in the list, that means you haven't
-      solved it; probably you have `sorry` it.
-
-    - Third, you will see the maximum number of points in standard and
-      advanced versions of the assignment.  That number is based on
-      the number of stars in the non-optional exercises.
-
-    - Fourth, you will see a list of "Allowed Axioms".  These are
-      unproved theorems that your solution is permitted to depend
-      upon.  You'll probably see something about
-      `functional_extensionality` for this chapter; we'll cover what
-      that means in a later chapter.
-
-    - Finally, you will see a summary of whether you have solved each
-      exercise.  Note that summary does not include the critical
-      information of whether the type is ok (that is, whether you
-      accidentally changed the theorem statement): you have to look
-      above for that information.
-
-    Exercises that are manually graded will also show up in the
-    output.  But since they have to be graded by a human, the test
-    script won't be able to tell you much about them.  -/
-
-/- 2023-03-25 11:11 -/
