@@ -1,0 +1,6 @@
+[book]
+authors = ["arthur-adjedj"]
+language = "en"
+multilingual = false
+src = "src"
+title = "LFLean"
